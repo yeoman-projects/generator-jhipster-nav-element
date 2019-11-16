@@ -1,4 +1,4 @@
-/* global describe, before, it */
+/* global describe, beforeEach, it */
 
 const path = require('path');
 const assert = require('yeoman-assert');
@@ -6,7 +6,7 @@ const helpers = require('yeoman-test');
 const navElementConstants = require('../../../generators/app/constants');
 
 describe('☯ core', () => {
-    before((done) => {
+    beforeEach((done) => {
         helpers.run(path.join(__dirname, '../../../generators/app'))
             .withPrompts({ templateType: navElementConstants.TEMPLATE_TYPE.DEFAULT })
             .on('error', (error) => {
