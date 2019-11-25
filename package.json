@@ -20,10 +20,6 @@
     "node": ">=12.18.3",
     "npm": ">=6.13.4"
   },
-  "files": [
-    "generators"
-  ],
-  "main": "generators/app/index.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vivekmore/generator-jhipster-nav-element.git"
@@ -50,10 +46,18 @@
     "istanbul": "0.4.5",
     "mocha": "8.1.3",
     "mocha-lcov-reporter": "1.3.0",
+    "rimraf": "3.0.0",
+    "typescript": "3.7.2",
+    "typescript-tslint-plugin": "0.5.5",
     "yeoman-assert": "3.1.1",
     "yeoman-test": "3.0.0"
   },
   "scripts": {
+    "build": "tsc -p .",
+    "rebuild": "npm run clean && npm run build",
+    "watch": "tsc -p . --watch",
+    "clean": "rimraf ./lib",
+    "prepare": "npm run rebuild",
     "pretest": "eslint .",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
