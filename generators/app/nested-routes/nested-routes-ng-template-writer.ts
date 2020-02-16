@@ -1,12 +1,8 @@
 /* eslint no-multiple-empty-lines: "off" */
-const _ = require('lodash');
+import _ from 'lodash';
 const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
 
-module.exports = {
-    write
-};
-
-function write(generator) {
+export function write(generator: any) {
     const jhipsterAppConfig = generator.jhipsterAppConfig;
 
     generator.baseName = jhipsterAppConfig.baseName;
@@ -17,8 +13,8 @@ function write(generator) {
     generator.useSass = jhipsterAppConfig.useSass;
 
     const s = generator.navElementKey.trim()
-        .replace(' ', '-')
-        .replace('_', '-');
+                       .replace(' ', '-')
+                       .replace('_', '-');
     generator.translationKeyMenu = _.kebabCase(s).toLowerCase();
     generator.componentStartCase = _.startCase(s);
 
@@ -49,7 +45,7 @@ function write(generator) {
 
     const componentFileNamePrefix = _.kebabCase(s).toLowerCase();
     const componentDirName = _.kebabCase(s).toLowerCase();
-    const subComponents = [
+    const subComponents: any[] = [
         {
             componentName: 'PageOneComponent',
             selector: `${prefix}page-one`,
@@ -95,7 +91,7 @@ function write(generator) {
         `${nestedRoutesNg2TemplateDir}src/main/webapp/app/element/element-with-nested.component.html.ejs`,
         `${webappDir}app/${componentDirName}/${componentFileNamePrefix}.component.html`
     );
-    _.forEach(subComponents, (subComponent) => {
+    _.forEach(subComponents, (subComponent: any) => {
         generator.currentSubComponent = subComponent;
         generator.template(
             `${nestedRoutesNg2TemplateDir}src/main/webapp/app/element/element.component.html.ejs`,
@@ -109,7 +105,7 @@ function write(generator) {
         `${defaultNg2TemplateDir}src/main/webapp/app/element/element.component.ts.ejs`,
         `${webappDir}app/${componentDirName}/${componentFileNamePrefix}.component.ts`
     );
-    _.forEach(subComponents, (subComponent) => {
+    _.forEach(subComponents, (subComponent: any) => {
         generator.currentSubComponent = subComponent;
         generator.template(
             `${nestedRoutesNg2TemplateDir}src/main/webapp/app/element/element.component.ts.ejs`,
@@ -130,7 +126,7 @@ function write(generator) {
         `${nestedRoutesNg2TemplateDir}src/main/webapp/app/element/element-with-nested.route.ts.ejs`,
         `${webappDir}app/${componentDirName}/${componentFileNamePrefix}.route.ts`
     );
-    _.forEach(subComponents, (subComponent) => {
+    _.forEach(subComponents, (subComponent: any) => {
         generator.currentSubComponent = subComponent;
         generator.template(
             `${nestedRoutesNg2TemplateDir}src/main/webapp/app/element/element.route.ts.ejs`,
@@ -152,7 +148,7 @@ function write(generator) {
             `${defaultNg2TemplateDir}src/main/webapp/app/element/element.component.scss.ejs`,
             `${webappDir}app/${componentDirName}/${componentFileNamePrefix}.component.scss`
         );
-        _.forEach(subComponents, (subComponent) => {
+        _.forEach(subComponents, (subComponent: any) => {
             generator.currentSubComponent = subComponent;
             generator.template(
                 `${nestedRoutesNg2TemplateDir}src/main/webapp/app/element/element.component.scss.ejs`,
@@ -164,7 +160,7 @@ function write(generator) {
             `${defaultNg2TemplateDir}src/main/webapp/app/element/element.component.css.ejs`,
             `${webappDir}app/${componentDirName}/${componentFileNamePrefix}.component.css`
         );
-        _.forEach(subComponents, (subComponent) => {
+        _.forEach(subComponents, (subComponent: any) => {
             generator.currentSubComponent = subComponent;
             generator.template(
                 `${nestedRoutesNg2TemplateDir}src/main/webapp/app/element/element.component.css.ejs`,
@@ -188,27 +184,27 @@ function write(generator) {
     // i18n ELEMENT JSON
     if (generator.enableTranslation) {
         generator.getAllInstalledLanguages()
-            .forEach((language) => {
-                generator.currentLanguagePrefix = language === generator.nativeLanguage ? '' : `[${language}] `;
-                generator.log('processing for ', language, 'prefix', generator.currentLanguagePrefix);
-                generator.template(
-                    `${defaultNg2TemplateDir}src/main/webapp/i18n/lang/element.json.ejs`,
-                    `${webappDir}i18n/${language}/${componentFileNamePrefix}.json`
-                );
-                _.forEach(subComponents, (subComponent) => {
-                    generator.currentSubComponent = subComponent;
-                    generator.template(
-                        `${nestedRoutesNg2TemplateDir}src/main/webapp/i18n/lang/element.json.ejs`,
-                        `${webappDir}i18n/${language}/${subComponent.componentFileNamePrefix}.json`
-                    );
-                });
-            }, generator);
+                 .forEach((language: string) => {
+                     generator.currentLanguagePrefix = language === generator.nativeLanguage ? '' : `[${language}] `;
+                     generator.log('processing for ', language, 'prefix', generator.currentLanguagePrefix);
+                     generator.template(
+                         `${defaultNg2TemplateDir}src/main/webapp/i18n/lang/element.json.ejs`,
+                         `${webappDir}i18n/${language}/${componentFileNamePrefix}.json`
+                     );
+                     _.forEach(subComponents, (subComponent: any) => {
+                         generator.currentSubComponent = subComponent;
+                         generator.template(
+                             `${nestedRoutesNg2TemplateDir}src/main/webapp/i18n/lang/element.json.ejs`,
+                             `${webappDir}i18n/${language}/${subComponent.componentFileNamePrefix}.json`
+                         );
+                     });
+                 }, generator);
     }
 
 
     // GLOBAL JSON
     generator.addTranslationKeyToAllLanguages(generator.translationKeyMenu, generator.navElementKey, 'addElementTranslationKey', generator.enableTranslation);
-    _.forEach(subComponents, (subComponent) => {
+    _.forEach(subComponents, (subComponent: any) => {
         generator.addTranslationKeyToAllLanguages(subComponent.translationKeyMenu, subComponent.navElementKey, 'addElementTranslationKey', generator.enableTranslation);
     });
 
@@ -223,7 +219,7 @@ function write(generator) {
         `${defaultNg2TemplateDir}src/test/javascript/spec/app/element/element.component.spec.ts.ejs`,
         `${jhipsterConstants.CLIENT_TEST_SRC_DIR}spec/app/${componentFileNamePrefix}/${componentFileNamePrefix}.component.spec.ts`
     );
-    _.forEach(subComponents, (subComponent) => {
+    _.forEach(subComponents, (subComponent: any) => {
         generator.currentSubComponent = subComponent;
         generator.template(
             `${nestedRoutesNg2TemplateDir}src/test/javascript/spec/app/element/element.component.spec.ts.ejs`,

@@ -1,36 +1,31 @@
-const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
-const constants = require('./constants');
-const defaultNg2TemplateWriter = require('./about-us/about-us-ng-template-writer');
-const defaultReactTemplateWriter = require('./about-us/about-us-react-template-writer');
-const nestedRoutesNg2TemplateWriter = require('./nested-routes/nested-routes-ng-template-writer');
+import { TemplateType } from './constants';
+import { write as writeDefaultNg2Template } from './about-us/about-us-ng-template-writer';
+import { write as writeNestedRoutesNg2Template } from './nested-routes/nested-routes-ng-template-writer';
+import { write as writeCookieConsentNg2Template } from './cookie-consent/cookie-consent-ng-template-writer';
 
-module.exports = {
-    writeTemplate
-};
-
-function writeTemplate(generator) {
+export function writeTemplate(generator: any) {
     switch (generator.templateType) {
-    case constants.TEMPLATE_TYPE.DEFAULT:
-        writeDefaultTemplate(generator);
-        break;
-    case constants.TEMPLATE_TYPE.NESTED_ROUTES:
-        writeNestedRoutesTemplate(generator);
-        break;
-    default:
-        break;
+        case TemplateType.DEFAULT:
+            writeDefaultTemplate(generator);
+            break;
+        case TemplateType.NESTED_ROUTES:
+            writeNestedRoutesTemplate(generator);
+            break;
+        default:
+            break;
     }
 }
 
-function writeDefaultTemplate(generator) {
+function writeDefaultTemplate(generator: any) {
     const clientFramework = generator.jhipsterAppConfig.clientFramework;
     if (clientFramework === jhipsterConstants.SUPPORTED_CLIENT_FRAMEWORKS.ANGULAR) {
-        defaultNg2TemplateWriter.write(generator);
+        writeDefaultNg2Template(generator);
     } else if (clientFramework === jhipsterConstants.SUPPORTED_CLIENT_FRAMEWORKS.REACT) {
         defaultReactTemplateWriter.write(generator);
     }
 }
-function writeNestedRoutesTemplate(generator) {
+function writeNestedRoutesTemplate(generator: any) {
     if (generator.jhipsterAppConfig.clientFramework === jhipsterConstants.SUPPORTED_CLIENT_FRAMEWORKS.ANGULAR) {
-        nestedRoutesNg2TemplateWriter.write(generator);
+        writeNestedRoutesNg2Template(generator);
     }
 }

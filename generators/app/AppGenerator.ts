@@ -1,66 +1,62 @@
-import * as BaseGenerator from 'generator-jhipster/generators/generator-base'
-// import BaseGenerator = require('generator-jhipster/generators/generator-base');
+import * as BaseGenerator from 'generator-jhipster/generators/generator-base.js'
+import { promptTemplateSpecificQuestions, promptToChooseATemplate } from './main-prompter';
+import { writeTemplate } from './main-writer';
 
 const chalk = require('chalk');
 const semver = require('semver');
-const _ = require('lodash');
+import _ from 'lodash';
 
 const packageJson = require('../../package.json');
-const mainPrompter = require('./main-prompter');
-const mainWriter = require('./main-writer');
 
-export class AppGenerator extends BaseGenerator {
+export class AppGenerator implements BaseGenerator {
 
     private templateDir: string;
     private templateType: string;
+    private jhipsterAppConfig: any;
 
-    public constructor(args: string | string[], options: {}) {
-        super(args, options);
+    // public constructor(args: string | string[], options: {}) {
+    //     super(args, options);
+    // }
+
+    public initializing() {
+
+        this.jhipsterAppConfig = this.getAllJhipsterConfig(this, false);
+
+        // it's here to show that you can use functions from generator-jhipster
+        // this function is in: generator-jhipster/generators/generator-base.js
+        this.printJHipsterLogo();
+
+        // Have Yeoman greet the user.
+        console.log(`\nWelcome to the ${chalk.bold.yellow('JHipster Navigation Element')} generator! ${chalk.yellow(`v${packageJson.version}\n`)}`);
+
+        const jhipsterVersion = this.jhipsterAppConfig.jhipsterVersion;
+        const minimumJhipsterVersion = packageJson.dependencies['generator-jhipster'];
+        if (!semver.satisfies(jhipsterVersion, minimumJhipsterVersion)) {
+            console.log(`\nYour generated project used an old JHipster version (${jhipsterVersion})... you need at least (${minimumJhipsterVersion})\n`);
+        }
+
     }
 
-    get initializing() {
+    public prompting() {
         return {
-            readConfig() {
-                this.jhipsterAppConfig = this.getAllJhipsterConfig(this, false);
-            },
-            displayLogo() {
-                // it's here to show that you can use functions from generator-jhipster
-                // this function is in: generator-jhipster/generators/generator-base.js
-                this.printJHipsterLogo();
-
-                // Have Yeoman greet the user.
-                this.log(`\nWelcome to the ${chalk.bold.yellow('JHipster Navigation Element')} generator! ${chalk.yellow(`v${packageJson.version}\n`)}`);
-            },
-            checkJhipster() {
-                const jhipsterVersion = this.jhipsterAppConfig.jhipsterVersion;
-                const minimumJhipsterVersion = packageJson.dependencies['generator-jhipster'];
-                if (!semver.satisfies(jhipsterVersion, minimumJhipsterVersion)) {
-                    this.warning(`\nYour generated project used an old JHipster version (${jhipsterVersion})... you need at least (${minimumJhipsterVersion})\n`);
-                }
-            }
+            chooseATemplate: promptToChooseATemplate,
+            templateSpecificQuestions: () => promptTemplateSpecificQuestions(this)
         };
     }
 
-    get prompting() {
-        return {
-            chooseATemplate: mainPrompter.promptToChooseATemplate,
-            templateSpecificQuestions: mainPrompter.promptTemplateSpecificQuestions
-        };
-    }
-
-    configuring() {
+    public configuring() {
         this.templateDir = `${_.toLower(this.templateType)}/`;
     }
 
-    get writing() {
+    public writing() {
         return {
             writeTemplateSpecificFiles() {
-                mainWriter.writeTemplate(this);
+                writeTemplate(this);
             }
         };
     }
 
-    end() {
+    public end() {
         console.log('End of navigation element generation');
     }
 }

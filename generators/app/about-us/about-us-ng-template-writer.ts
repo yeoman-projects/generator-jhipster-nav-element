@@ -1,12 +1,8 @@
 /* eslint no-multiple-empty-lines: "off" */
-const _ = require('lodash');
-const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
+import _ from 'lodash';
+import {jhipsterConstants} from 'generator-jhipster/generators/generator-constants';
 
-module.exports = {
-    write
-};
-
-function write(generator) {
+export function write(generator: any) {
     const jhipsterAppConfig = generator.jhipsterAppConfig;
 
     generator.baseName = jhipsterAppConfig.baseName;

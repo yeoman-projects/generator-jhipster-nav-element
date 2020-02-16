@@ -1,61 +1,70 @@
-const jhipsterConstants = require('generator-jhipster/generators/generator-constants');
-const constants = require('./constants');
-const defaultNg2TemplatePrompter = require('./about-us/about-us-ng-template-prompter');
-const defaultReactTemplatePrompter = require('./about-us/about-us-react-template-prompter');
-const nestedRoutesNg2TemplatePrompter = require('./nested-routes/nested-routes-ng-template-prompter');
+// import { Question } from 'inquirer';
+// import Prompt from 'inquirer/lib/prompts/base';
+// import ListPrompt from 'inquirer/lib/prompts/list';
+// import { Interface as ReadLineInterface } from "readline";
+import { askQuestions as promptDefaultNg2TemplateQuestions } from './about-us/about-us-ng-template-prompter';
+import { askQuestions as promptDefaultReactTemplateQuestions } from './about-us/about-us-react-template-prompter';
+import { TemplateType } from './constants';
+import { askQuestions as promptNestedRoutesNg2TemplateQuestions } from './nested-routes/nested-routes-ng-template-prompter';
 
-module.exports = {
-    promptToChooseATemplate,
-    promptTemplateSpecificQuestions
-};
+export function promptToChooseATemplate(generator: any) {
+    const done = generator.async();
 
-function promptToChooseATemplate() {
-    const done = this.async();
+    // const question: Question = {
+    //     default: TemplateType.DEFAULT,
+    //     message: 'What would you like to generate? (More components will be added soon! Stay tuned...)',
+    //     name: 'templateType',
+    //     type: 'list'
+    // };
+    //
+    // const readLine: ReadLineInterface = null;
+    //
+    // const p: Prompt = new ListPrompt(question, null, answers);
 
-    this.prompt({
+    generator.prompt({
         type: 'list',
         name: 'templateType',
         message: 'What would you like to generate? (More components will be added soon! Stay tuned...)',
         choices: [
             {
                 name: 'A Simple Page (with a corresponding nav element)',
-                value: constants.TEMPLATE_TYPE.DEFAULT
+                value: TemplateType.DEFAULT
             },
             {
                 name: 'A Page With Nested Routes',
                 value: constants.TEMPLATE_TYPE.NESTED_ROUTES
             }
         ]
-    }).then((prompt) => {
-        this.templateType = prompt.templateType;
+    }).then((prompt: any) => {
+        generator.templateType = prompt.templateType;
         // To access props later use this.someOption;
         done();
     });
 }
 
-function promptTemplateSpecificQuestions() {
-    switch (this.templateType) {
-    case constants.TEMPLATE_TYPE.DEFAULT:
-        askDefaultTemplateQuestions(this);
+export function promptTemplateSpecificQuestions(generator: any) {
+    switch (generator.templateType) {
+    case TemplateType.DEFAULT:
+        askDefaultTemplateQuestions(generator);
         break;
-    case constants.TEMPLATE_TYPE.NESTED_ROUTES:
-        askNestedRoutesTemplateQuestions(this);
+    case TemplateType.NESTED_ROUTES:
+        askNestedRoutesTemplateQuestions(generator);
         break;
     default:
         break;
     }
 }
 
-function askDefaultTemplateQuestions(generator) {
+function askDefaultTemplateQuestions(generator: any) {
     const clientFramework = generator.jhipsterAppConfig.clientFramework;
     if (clientFramework === jhipsterConstants.SUPPORTED_CLIENT_FRAMEWORKS.ANGULAR) {
-        defaultNg2TemplatePrompter.askQuestions(generator);
+        promptDefaultNg2TemplateQuestions(generator);
     } else if (clientFramework === jhipsterConstants.SUPPORTED_CLIENT_FRAMEWORKS.REACT) {
-        defaultReactTemplatePrompter.askQuestions(generator);
+        promptDefaultReactTemplateQuestions(generator);
     }
 }
-function askNestedRoutesTemplateQuestions(generator) {
+function askNestedRoutesTemplateQuestions(generator: any) {
     if (generator.jhipsterAppConfig.clientFramework === jhipsterConstants.SUPPORTED_CLIENT_FRAMEWORKS.ANGULAR) {
-        nestedRoutesNg2TemplatePrompter.askQuestions(generator);
+        promptNestedRoutesNg2TemplateQuestions(generator);
     }
 }
