@@ -1,4 +1,6 @@
-const BaseGenerator = require('generator-jhipster/generators/generator-base');
+import * as BaseGenerator from 'generator-jhipster/generators/generator-base'
+// import BaseGenerator = require('generator-jhipster/generators/generator-base');
+
 const chalk = require('chalk');
 const semver = require('semver');
 const _ = require('lodash');
@@ -7,11 +9,19 @@ const packageJson = require('../../package.json');
 const mainPrompter = require('./main-prompter');
 const mainWriter = require('./main-writer');
 
-module.exports = class extends BaseGenerator {
+export class AppGenerator extends BaseGenerator {
+
+    private templateDir: string;
+    private templateType: string;
+
+    public constructor(args: string | string[], options: {}) {
+        super(args, options);
+    }
+
     get initializing() {
         return {
             readConfig() {
-                this.jhipsterAppConfig = this.getAllJhipsterConfig();
+                this.jhipsterAppConfig = this.getAllJhipsterConfig(this, false);
             },
             displayLogo() {
                 // it's here to show that you can use functions from generator-jhipster
@@ -51,6 +61,6 @@ module.exports = class extends BaseGenerator {
     }
 
     end() {
-        this.log('End of navigation element generation');
+        console.log('End of navigation element generation');
     }
-};
+}
