@@ -41,8 +41,9 @@
     "yeoman-generator": "4.12.0"
   },
   "devDependencies": {
-    "commitizen": "^4.2.1",
+    "commitizen": "4.2.1",
     "coveralls": "3.1.0",
+    "cz-emoji": "^1.2.2",
     "eslint": "7.10.0",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-plugin-import": "2.22.1",
@@ -55,6 +56,7 @@
     "yeoman-test": "3.0.0"
   },
   "scripts": {
+    "commit": "git-cz",
     "pretest": "eslint .",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
