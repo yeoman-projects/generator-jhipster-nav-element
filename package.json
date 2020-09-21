@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "chalk": "4.1.0",
-    "generator-jhipster": "6.10.3",
+    "generator-jhipster": "^6.10.3",
     "kind-of": ">=6.0.3",
     "lodash": "4.17.20",
     "minimist": "1.2.5",
@@ -41,7 +41,10 @@
     "yeoman-generator": "4.12.0"
   },
   "devDependencies": {
+    "commitizen": "^4.2.1",
+    "conventional-changelog-cli": "^2.1.0",
     "coveralls": "3.1.0",
+    "cz-customizable": "^6.3.0",
     "eslint": "7.10.0",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-plugin-import": "2.22.1",
@@ -54,20 +57,23 @@
     "yeoman-test": "3.0.0"
   },
   "scripts": {
+    "commit": "git-cz",
     "pretest": "eslint .",
     "lint": "eslint .",
     "lint-fix": "eslint . --fix",
     "test": "mocha test/**/test.js generators/**/*.spec.js",
     "preversion": "npm i && npm test",
-    "postversion": "git push --tags",
-    "bump-patch": "npm version patch",
-    "bump-minor": "npm version minor",
-    "bump-major": "npm version major",
+    "release": "semantic-release",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha test/**/test.js generators/**/*.spec.js",
     "coveralls": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec test/**/test.js generators/**/*.spec.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/vivekmore/generator-jhipster-nav-element/issues"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
+    }
   }
 }
