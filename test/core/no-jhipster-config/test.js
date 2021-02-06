@@ -13,5 +13,5 @@ describe('☯ core', () => {
             .on('end', done);
     });
 
-    it('throws error when .yo-rc.json is not found', () => {});
+    test('throws error when .yo-rc.json is not found', () => {});
 });
